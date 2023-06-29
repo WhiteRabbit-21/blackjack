@@ -6,6 +6,7 @@
 #include <time.h>
 using namespace std;
 
+
 int countValues(string Card, int &sum) {
     
     if (Card == "Deuce") {
@@ -44,16 +45,51 @@ int countValues(string Card, int &sum) {
     if (Card == "King") {
         sum += 10;
     }
-    if (Card == "Ace") {
-        sum += 11; // or 1 (add function to check, if it is a first card)
+    if (Card == "Ace" && sum+11>21) {
+        sum += 1;
+    }
+    else if (Card == "Ace" && sum + 11 < 21)
+    {
+        sum += 11;
     }
 
     return sum;
 }
 
+void GeneratingCardOnTable(int &sum, vector <string> face, vector <string> suit){
+
+    int i = 0, AmountCardOnTable = 2;
+    while (i < AmountCardOnTable)
+    {
+        int tmp = rand() % face.size();
+        cout << face[tmp] << " " << suit[rand() % suit.size()] << endl;
+        i++;
+
+        countValues(face[tmp], sum);
+        
+        if (sum >= 21) {
+            cout << "You`ve losted, Sum " << sum << " is bigger than 21" << endl;
+            break;
+        }
+        
+        if (i >= AmountCardOnTable)
+        {
+            cout << "Sum is: " << sum << endl;
+            cout << "Do you need more?" << endl;
+            bool ans;
+            cin >> ans;
+            if (ans == 1) {
+                AmountCardOnTable++;
+            }
+
+        }
+
+    }
+}
+
 int main(){
 
-    srand(time(0));
+    //srand(time(0));
     // Intializing cards
     vector <string> face = 
     { "Ace", "Deuce", "Three", "Four",
@@ -63,30 +99,25 @@ int main(){
     vector <string> suit = { "Hearts", "Diamonds", "Clubs", "Spades" };
 
     // Generating card on the table for the player
+    int sum = 0;
 
-    int i = 0, AmountCardOnTable = 2, sum = 0;
-    while (i < AmountCardOnTable) 
-    {
-        int tmp = rand() % face.size();
-        cout << face[tmp] << " " << suit[rand() % suit.size()] << endl;
-        i++;
-        countValues(face[tmp], sum);
+    
 
-        if (i >= AmountCardOnTable) 
-        {
-            cout << "Do you need more?" << endl;
-            bool ans;
-            cin >> ans;
-            if (ans == 1) {
-                AmountCardOnTable++;
-            }
-            
-        }
-    }
-
+    GeneratingCardOnTable(sum, face, suit);
+    
+    
     cout << endl;
-    cout << "Sum is: " << sum;
+    cout << "First Sum is: " << sum << endl;
     cout << endl;
+
+    int  sum1 = 0;
+
+    GeneratingCardOnTable(sum1, face, suit);
+    
+    cout << endl;
+    cout << "Dealers Sum is: " << sum1 << endl;
+    cout << endl;
+
    // cout << face[rand() % face.size()] << " " << suit[rand() % suit.size()] << endl;
    // cout << face[rand() % face.size()] << " " << suit[rand() % suit.size()] << endl;
 
