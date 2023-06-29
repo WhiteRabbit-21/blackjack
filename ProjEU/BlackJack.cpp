@@ -6,7 +6,7 @@
 #include <time.h>
 using namespace std;
 
-int countValues(string Card, int &sum, vector<string> face) {
+int countValues(string Card, int &sum) {
     
     if (Card == "Deuce") {
         sum += 2;
@@ -29,6 +29,25 @@ int countValues(string Card, int &sum, vector<string> face) {
     if (Card == "Eight") {
         sum += 8;
     }
+    if (Card == "Nine") {
+        sum += 9;
+    }
+    if (Card == "Ten") {
+        sum += 10;
+    }
+    if (Card == "Jack") {
+        sum += 10;
+    }
+    if (Card == "Queen") {
+        sum += 10;
+    }
+    if (Card == "King") {
+        sum += 10;
+    }
+    if (Card == "Ace") {
+        sum += 11; // or 1 (add function to check, if it is a first card)
+    }
+
     return sum;
 }
 
@@ -51,7 +70,7 @@ int main(){
         int tmp = rand() % face.size();
         cout << face[tmp] << " " << suit[rand() % suit.size()] << endl;
         i++;
-        countValues(face[tmp], sum, face);
+        countValues(face[tmp], sum);
 
         if (i >= AmountCardOnTable) 
         {
