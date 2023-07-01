@@ -6,6 +6,27 @@
 #include <time.h>
 using namespace std;
 
+void exit_func() {
+    bool ask;
+    cout << "Do you want to continue? 1/0";
+    cin >> ask;
+    if (ask != 1) {
+        exit(0);
+    }
+   
+
+}
+
+
+
+void dealerWin() {
+
+}
+
+void playerWin() {
+
+}
+
 int countValues(string Card, int &sum) {
     
     if (Card == "Deuce") {
@@ -64,10 +85,13 @@ int GeneratingCardOnTable(int& sum, vector <string> face, vector <string> suit) 
         cout << face[tmp] << " " << suit[rand() % suit.size()] << endl;
         i++;
 
-        tmp = countValues(face[tmp], sum);
-        if (tmp > 21) {
-            return sum;
+
+        if (countValues(face[tmp], sum) > 21) {
+            cout << "Dealer win" << endl; // rewrite funcrion for role  
+            exit_func();
+            return 0;
         }
+        // add aditional variable to check whos turn, and refresh everytime whem function will called
         if (i >= AmountCardOnTable)
         {
             cout << "Sum is: " << sum << endl;
@@ -118,15 +142,7 @@ int GeneratingCardOnTableForDealer(int& sum, vector <string> face, vector <strin
 }
 
 
-void exit_func() {
-    bool ask;
-    cout << "Do you want to continue? 1/0";
-    cin >> ask;
-    if (ask != 1) {
-        exit(0);
-    }
 
-}
 
 string values_compareFunction(int playerScore, int dealerScore)
 {
@@ -187,26 +203,26 @@ int main() {
         playerSum = GeneratingCardOnTable(playerSum, face, suit);
 
         cout << endl;
-        cout << "Player Sum is: " << playerSum << endl;
-        cout << endl;
+ 
 
-        if (values_compareFunction(playerSum, dealerSum) == "Dealer") {
-            cout << "Dealer win" << endl;
+        if (playerSum != 0) {
+
+            cout << "Player Sum is: " << playerSum << endl;
+            cout << endl;
+
+            dealerSum = GeneratingCardOnTable(dealerSum, face, suit);
+
+            values_compareFunction(playerSum, dealerSum);
+
+
+            //cout << endl;
+            //cout << "Dealers Sum is: " << dealerSum << endl;
+            //cout << endl;
+
+            //values_compareFunction(playerSum, dealerSum);
+
             exit_func();
         }
-  
-        dealerSum = GeneratingCardOnTable(dealerSum, face, suit);
-        
-        values_compareFunction(playerSum, dealerSum);
-
-        
-        cout << endl;
-        cout << "Dealers Sum is: " << dealerSum << endl;
-        cout << endl;
-
-        values_compareFunction(playerSum, dealerSum);
-
-        exit_func();
 
     }
     // cout << face[rand() % face.size()] << " " << suit[rand() % suit.size()] << endl;
