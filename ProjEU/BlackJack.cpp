@@ -87,6 +87,7 @@ int GeneratingCardOnTable(int& sum, vector <string> face, vector <string> suit) 
 
 
         if (countValues(face[tmp], sum) > 21) {
+            cout << "Player sum is: " << sum << endl;
             cout << "Dealer win" << endl; // rewrite funcrion for role  
             exit_func();
             return 0;
@@ -117,26 +118,39 @@ int GeneratingCardOnTable(int& sum, vector <string> face, vector <string> suit) 
 int GeneratingCardOnTableForDealer(int& sum, vector <string> face, vector <string> suit) {
 
     int i = 0, AmountCardOnTable = 2;
+
     while (i < AmountCardOnTable)
     {
         int tmp = rand() % face.size();
         cout << face[tmp] << " " << suit[rand() % suit.size()] << endl;
         i++;
 
-        countValues(face[tmp], sum);
-        
+        if (countValues(face[tmp], sum) > 21) 
+        {
+            cout << "Player win" << endl; // rewrite funcrion for role  
+            exit_func();
+            return sum;
+        }
+        // add aditional variable to check whos turn, and refresh everytime whem function will called
         if (i >= AmountCardOnTable)
         {
             cout << "Sum is: " << sum << endl;
-            cout << "Do you need more?" << endl;
-            bool ans;
-            cin >> ans;
-            if (ans == 1) {
-                AmountCardOnTable++;
+            
+            if (sum == 21) 
+            {
+                return sum;
             }
-            // add else operator for dealers turn or skip it
+            else
+            {
+                cout << "Do you need more?" << endl;
+                bool ans;
+                cin >> ans;
+                if (ans == 1)
+                {
+                    AmountCardOnTable++;
+                }
+            }
         }
-
     }
     return sum;
 }
@@ -161,18 +175,14 @@ string values_compareFunction(int playerScore, int dealerScore)
         cout << "Player Win" << endl;
         return "Player";
     }
-    else if (playerScore > 21) { // implementd in code
-        cout << "Dealer win" << endl;
-        return "Dealer";
-    }
     else if (playerScore == dealerScore)
     {
-        cout << " Dealer win" << endl;
+        cout << "Dealer win" << endl;
         return "Dealer";
 
     }
     else if (playerScore < dealerScore && dealerScore <= 21) {
-        cout << " Dealer win" << endl;
+        cout << "Dealer win" << endl;
         return "Dealer";
 
     }
@@ -214,12 +224,9 @@ int main() {
 
             values_compareFunction(playerSum, dealerSum);
 
-
-            //cout << endl;
-            //cout << "Dealers Sum is: " << dealerSum << endl;
-            //cout << endl;
-
-            //values_compareFunction(playerSum, dealerSum);
+            
+            cout << "Dealers Sum is: " << dealerSum << endl;
+            cout << endl;
 
             exit_func();
         }
